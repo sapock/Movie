@@ -9,6 +9,8 @@ import javax.persistence.*;
 
 import java.util.List;
 import lombok.Data;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -55,9 +57,16 @@ public class RatingInfo {
         RatingApplication.applicationContext.getBean(ReservationService.class)
         .getReservation(Long.valueOf(getReserveId()));
 
-        if(reservation.getScreenDate())
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date currentTime = new Date();
+        String date = format.format(currentTime);
+        String scrDate = format.format(reservation.getScreenDate());
 
+        int compare = date.compareTo(scrDate);
+        if(compare >= 0) throw new RuntimeException("Wathced it yet!");
+   
     }
+    
     public static RatingInfoRepository repository() {
         RatingInfoRepository ratingInfoRepository = RatingApplication.applicationContext
                 .getBean(RatingInfoRepository.class);
