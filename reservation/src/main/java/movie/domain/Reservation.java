@@ -8,123 +8,82 @@ import java.util.List;
 import lombok.Data;
 import java.util.Date;
 
-
 @Entity
-@Table(name="Reservation_table")
+@Table(name = "Reservation_table")
 @Data
 
-public class Reservation  {
+public class Reservation {
 
-
-    
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    
-    
-    
-    
-    
+    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Long id;
-    
-    
-    
-    
-    
+
     private Long movieId;
-    
-    
-    
-    
-    
+
     private Long screenId;
-    
-    
-    
-    
-    
+
     private Long customerId;
-    
-    
-    
-    
-    
+
+    private Long paymentId;
+
     private Integer seatingQty;
-    
-    
-    
-    
-    
+
     private String customerEmail;
-    
-    
-    
-    
-    
+
     private String theaterName;
-    
-    
-    
-    
-    
+
     private Date screenDate;
 
     @PostPersist
-    public void onPostPersist(){
-
+    public void onPostPersist() {
 
         ReserveCanceled reserveCanceled = new ReserveCanceled(this);
         reserveCanceled.publishAfterCommit();
 
-
-        //Following code causes dependency to external APIs
+        // Following code causes dependency to external APIs
         // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
-
 
         movie.external.Payment payment = new movie.external.Payment();
         // mappings goes here
         ReservationApplication.applicationContext.getBean(movie.external.PaymentService.class)
-            .approvePay(payment);
-
+                .approvePay(payment);
 
         MovieReserved movieReserved = new MovieReserved(this);
         movieReserved.publishAfterCommit();
 
         // Get request from Screen
-        //movie.external.Screen screen =
-        //    Application.applicationContext.getBean(movie.external.ScreenService.class)
-        //    .getScreen(/** mapping value needed */);
+        // movie.external.Screen screen =
+        // Application.applicationContext.getBean(movie.external.ScreenService.class)
+        // .getScreen(/** mapping value needed */);
 
     }
 
-    public static ReservationRepository repository(){
-        ReservationRepository reservationRepository = ReservationApplication.applicationContext.getBean(ReservationRepository.class);
+    public static ReservationRepository repository() {
+        ReservationRepository reservationRepository = ReservationApplication.applicationContext
+                .getBean(ReservationRepository.class);
         return reservationRepository;
     }
 
+    public static void sendMsgScreen(ScreenUpdated screenUpdated) {
 
+        /**
+         * Example 1: new item
+         * Reservation reservation = new Reservation();
+         * repository().save(reservation);
+         */
 
+        /**
+         * Example 2: finding and process
+         * 
+         * repository().findById(screenUpdated.get???()).ifPresent(reservation->{
+         * 
+         * reservation // do something
+         * repository().save(reservation);
+         * 
+         * });
+         */
 
-    public static void sendMsgScreen(ScreenUpdated screenUpdated){
-
-        /** Example 1:  new item 
-        Reservation reservation = new Reservation();
-        repository().save(reservation);
-
-        */
-
-        /** Example 2:  finding and process
-        
-        repository().findById(screenUpdated.get???()).ifPresent(reservation->{
-            
-            reservation // do something
-            repository().save(reservation);
-
-
-         });
-        */
-
-        
     }
-
 
 }

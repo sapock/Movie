@@ -14,6 +14,7 @@ public class ReserveCanceled extends AbstractEvent {
     private Long movieId;
     private Long screenId;
     private Long customerId;
+    private Long paymentId;
     private Integer seatingQty;
     private String customerEmail;
     private String theaterName;
