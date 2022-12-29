@@ -23,5 +23,4 @@
 
 
 
-## 보류
-5. 결제 완료된 티켓 발권하기
+![image](https://user-images.githubusercontent.com/49747084/209963026-96c742a1-2a77-45a2-994d-388f366345d5.png)
