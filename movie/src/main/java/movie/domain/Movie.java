@@ -55,6 +55,8 @@ public class Movie {
 
     }
 
+
+    // 주석이 보이시나요?
     public static void deleteRatingScore(RatingDeleted ratingDeleted) {
 
         repository().findById(Long.valueOf(ratingDeleted.getMovieId())).ifPresent(movie -> {
