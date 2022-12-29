@@ -35,22 +35,28 @@ public class Reservation {
 
     private Date screenDate;
 
+    private String cmdType;
+
     @PostPersist
     public void onPostPersist() {
 
-        ReserveCanceled reserveCanceled = new ReserveCanceled(this);
-        reserveCanceled.publishAfterCommit();
-
-        // Following code causes dependency to external APIs
-        // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
-
-        movie.external.Payment payment = new movie.external.Payment();
-        // mappings goes here
-        ReservationApplication.applicationContext.getBean(movie.external.PaymentService.class)
-                .approvePay(payment);
-
-        MovieReserved movieReserved = new MovieReserved(this);
-        movieReserved.publishAfterCommit();
+        if (this.getCmdType().equals("I")) { 
+            // Following code causes dependency to external APIs
+            // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
+            movie.external.Payment payment = new movie.external.Payment();
+            payment.setAmount(this.getSeatingQty() * 100000);
+            payment.setReserveId(this.getId());
+            payment.setPayStatus("APPR");
+            payment.setCustomerId(this.getCustomerId());
+            // mappings goes here
+            ReservationApplication.applicationContext.getBean(movie.external.PaymentService.class)
+                    .approvePay(payment);
+            MovieReserved movieReserved = new MovieReserved(this);
+            movieReserved.publishAfterCommit();
+        } else {
+            ReserveCanceled reserveCanceled = new ReserveCanceled(this);
+            reserveCanceled.publishAfterCommit();
+        }
 
         // Get request from Screen
         // movie.external.Screen screen =

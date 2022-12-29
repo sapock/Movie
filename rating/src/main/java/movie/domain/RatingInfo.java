@@ -34,14 +34,18 @@ public class RatingInfo {
 
     private String review;
 
+    private String cmdType;
+
     @PostPersist
     public void onPostPersist() {
 
-        RatingRegistered ratingRegistered = new RatingRegistered(this);
-        ratingRegistered.publishAfterCommit();
-
-        RatingDeleted ratingDeleted = new RatingDeleted(this);
-        ratingDeleted.publishAfterCommit();
+        if (this.getCmdType().equals("I")) {
+            RatingRegistered ratingRegistered = new RatingRegistered(this);
+            ratingRegistered.publishAfterCommit();
+        } else {
+            RatingDeleted ratingDeleted = new RatingDeleted(this);
+            ratingDeleted.publishAfterCommit();
+        }
 
         // Get request from Reservation
         // movie.external.Reservation reservation =
