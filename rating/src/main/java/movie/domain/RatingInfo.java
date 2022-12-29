@@ -1,9 +1,12 @@
 package movie.domain;
 
 import movie.domain.RatingRegistered;
+import movie.external.Reservation;
+import movie.external.ReservationService;
 import movie.domain.RatingDeleted;
 import movie.RatingApplication;
 import javax.persistence.*;
+
 import java.util.List;
 import lombok.Data;
 import java.util.Date;
@@ -45,6 +48,16 @@ public class RatingInfo {
 
     }
 
+    @PrePersist
+    public void onPrePersist() {
+        // Get request from reservation
+        Reservation reservation = 
+        RatingApplication.applicationContext.getBean(ReservationService.class)
+        .getReservation(Long.valueOf(getReserveId()));
+
+        if(reservation.getScreenDate())
+
+    }
     public static RatingInfoRepository repository() {
         RatingInfoRepository ratingInfoRepository = RatingApplication.applicationContext
                 .getBean(RatingInfoRepository.class);
