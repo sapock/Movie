@@ -20,7 +20,9 @@
             <div>
                 <Number label="SeatingRemain" v-model="item.seatingRemain" :editMode="editMode" @change="change" />
             </div>
-            <Money offline label="SeatingPrice" v-model="item.seatingPrice" :editMode="false" @change="change" />
+            <div>
+                <Number label="SeatingPrice" v-model="item.seatingPrice" :editMode="editMode" @change="change" />
+            </div>
         </v-card-text>
 
         <v-card-actions>

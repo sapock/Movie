@@ -16,7 +16,7 @@ public class ScreenUpdated extends AbstractEvent {
     private Date screenDate;
     private Integer seatingCapacity;
     private Integer seatingRemain;
-    private Money seatingPrice;
+    private Integer seatingPrice;
 
     public ScreenUpdated(Screen aggregate){
         super(aggregate);

@@ -22,7 +22,7 @@
             <Date label="ScreenDate" v-model="value.screenDate" :editMode="editMode"/>
             <Number label="SeatingCapacity" v-model="value.seatingCapacity" :editMode="editMode"/>
             <Number label="SeatingRemain" v-model="value.seatingRemain" :editMode="editMode"/>
-            <Money offline label="SeatingPrice" v-model="value.seatingPrice" :editMode="editMode" @change="change"/>
+            <Number label="SeatingPrice" v-model="value.seatingPrice" :editMode="editMode"/>
         </v-card-text>
 
         <v-card-actions>
@@ -83,12 +83,10 @@
 <script>
     const axios = require('axios').default;
 
-    import Money from './vo/Money.vue';
 
     export default {
         name: 'Screen',
         components:{
-            Money,
         },
         props: {
             value: [Object, String, Number, Boolean, Array],
