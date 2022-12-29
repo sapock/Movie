@@ -11,7 +11,7 @@ public class Screen {
     private Date screenDate;
     private Integer seatingCapacity;
     private Integer seatingRemain;
-    private Object seatingPrice;
+    private Integer seatingPrice;
 }
 
 

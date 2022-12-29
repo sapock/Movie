@@ -73,7 +73,7 @@
                 'screenDate': '2022-12-29',
                 'seatingCapacity': 0,
                 'seatingRemain': 0,
-                'seatingPrice': '',
+                'seatingPrice': 0,
             }
         },
         methods:{

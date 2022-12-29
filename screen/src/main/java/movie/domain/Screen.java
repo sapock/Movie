@@ -59,7 +59,7 @@ public class Screen  {
     
     
     
-    private Money seatingPrice;
+    private Integer seatingPrice;
 
     @PostPersist
     public void onPostPersist(){
