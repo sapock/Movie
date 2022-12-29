@@ -56,14 +56,21 @@ public class RatingInfo {
         Reservation reservation = 
         RatingApplication.applicationContext.getBean(ReservationService.class)
         .getReservation(Long.valueOf(getReserveId()));
+        
+        if(reservation == null ){
+            throw new RuntimeException("Unavailable!!!");
+        } 
+        
+        // else {
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date currentTime = new Date();
-        String date = format.format(currentTime);
-        String scrDate = format.format(reservation.getScreenDate());
-
-        int compare = date.compareTo(scrDate);
-        if(compare >= 0) throw new RuntimeException("Wathced it yet!");
+        //     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        //     Date currentTime = new Date();
+        //     String date = format.format(currentTime);
+        //     String scrDate = format.format(reservation.getScreenDate());
+    
+        //     int compare = date.compareTo(scrDate);
+        //     if(compare >= 0) throw new RuntimeException("Wathced it yet!");
+        // }    
    
     }
     

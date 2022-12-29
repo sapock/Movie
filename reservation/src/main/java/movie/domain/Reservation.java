@@ -86,14 +86,14 @@ public class Reservation {
 
     }
 
-    // @PostLoad
-    // public void makeDelay(){
-    //     try {
-    //         Thread.currentThread().sleep((long) (400 + Math.random() * 220));
-    //     } catch (InterruptedException e) {
-    //         e.printStackTrace();
-    //     }
+    @PostLoad
+    public void makeDelay(){
+        try {
+            Thread.currentThread().sleep((long) (400 + Math.random() * 220));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-    // }
+    }
 
 }

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: screen
-          image: username/screen:latest
+          image: sapock/screen:v1
           ports:
             - containerPort: 8080
           readinessProbe:

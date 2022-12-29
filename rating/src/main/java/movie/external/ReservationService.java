@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.Date;
 
 
-@FeignClient(name = "reservation", url = "${api.url.reservation}")
+@FeignClient(name = "reservation", url = "${api.url.reservation}", fallback = ReservationServiceImpl.class)
 public interface ReservationService {
     @RequestMapping(method= RequestMethod.GET, path="/reservations/{id}")
     public Reservation getReservation(@PathVariable("id") Long id);

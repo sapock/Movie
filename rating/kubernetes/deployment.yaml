@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: rating
-          image: username/rating:latest
+          image: sapock/rating:v1
           ports:
             - containerPort: 8080
           readinessProbe:
