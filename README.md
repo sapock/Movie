@@ -54,7 +54,7 @@
 
 ### Compensation & Correlation
 - 4명 예약 시, 잔여좌석 4가 차감됨(120->116)
-![image](https://user-images.githubusercontent.com/117365912/210041142-14ef252c-5eda-49ff-9c09-a9c5099e2db6.png)
+![image](https://user-images.githubusercontent.com/117365912/210041976-74136adc-77e5-41dd-bdaf-92fda02dbc3e.png)
 
 - 예약 취소 시, 잔여좌석 4가 증가함(116->120)
 ![image](https://user-images.githubusercontent.com/117365912/210041807-fcc707dc-e3d7-45c7-a64b-74d9bd34b15d.png)
