@@ -42,7 +42,9 @@
 
 
 ## 구현
-### 점검방법 : Movie_HTTP.txt 파일의 http request 목록으로 실행 점검
+
+- Movie_HTTP.txt 파일의 http request 목록으로 실행 점검
+- https://github.com/sapock/Movie/blob/main/Movie_HTTP.txt
 
 ### Saga (Pub-Sub)
 - 잔여좌석처리, 평점평균처리, 결재취소 등에 Saga 패턴을 적용함
