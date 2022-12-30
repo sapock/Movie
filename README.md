@@ -44,10 +44,13 @@
 ## 구현
 
 ### Saga (Pub-Sub)
+- 잔여좌석처리, 평점평균처리등에 Saga 패턴을 적용함
+- 평점을 등록하면, 영화정보에 평점평균으 업데이트 하는 케이스
 ![image](https://user-images.githubusercontent.com/117365912/210039670-89cdb013-4185-450f-a696-1b0b93d8f166.png)
 
 
 ### CQRS
+- 예약정보 및 평점정보 dashboard 구현
 ![image](https://user-images.githubusercontent.com/117365912/210039618-945de9e4-1659-49b8-9d45-de45b08643ab.png)
 
 ### Compensation & Correlation
@@ -67,9 +70,8 @@ reservation 결과가 없을 경우 오류를 발생시킴
   ![image](https://user-images.githubusercontent.com/117143880/210035244-d763ac80-4350-434b-88e1-e4b8f08a3990.png)
 
  - 수행 결과
- 로그에서 서킷브레이커 작동으로 오류 발생 확인
  <pre><code>
- java.lang.RuntimeException: Hystrix circuit short-circuited and is OPEN
+ {결과화면}
  </code></pre>
  
  - fallback 처리 (장애 발생 시에 대체 활동)
@@ -83,8 +85,6 @@ reservation 결과가 없을 경우 오류를 발생시킴
    ![image](https://user-images.githubusercontent.com/117143880/210034905-08d3dbc5-530b-408f-b414-234dc2f9526a.png)
  - 장애 발생으로 reservation 서비스를 호출하지 못했을 경우, ReservationServiceImpl 의 getReservation 메서드를 실행하여 대체값을 리턴한다.
  
-   ![image](https://user-images.githubusercontent.com/117143880/210039838-4a56ba9c-5b03-48a0-bb27-cf00b93ee87b.png)
-
 
 ### Gateway/Ingress
 - gateway 스프링부트 app 추가
@@ -131,38 +131,42 @@ kubectl autoscale deployment reservation --cpu-percent=50 --min=1 --max=3
 
 ![image](https://user-images.githubusercontent.com/117251587/210034371-2065a5ab-90c8-4828-a482-2aa0e845ce08.png)
 
-
 ### Persistence Volume/ConfigMap/Secret
  1. EFS 생성
-  ![image](https://user-images.githubusercontent.com/49747084/210037806-42f1c94e-abe9-45c4-9e5c-c124c5e1bb21.png)
+ 
+![image](https://user-images.githubusercontent.com/49747084/210037806-42f1c94e-abe9-45c4-9e5c-c124c5e1bb21.png)
   - Network 에서 각 AZ별 Security groups 추가
-  ![image](https://user-images.githubusercontent.com/49747084/210037842-2ad25cc6-30d4-43bd-8d33-5591d5fb1627.png)
+![image](https://user-images.githubusercontent.com/49747084/210037842-2ad25cc6-30d4-43bd-8d33-5591d5fb1627.png)
 
- 2. ServiceAccount 생성 - default namespace 사용
-  ![image](https://user-images.githubusercontent.com/49747084/210037938-282eb6a1-2cd1-4d68-b7e8-5cda0e819e97.png)
-  ![image](https://user-images.githubusercontent.com/49747084/210038010-7421b7cb-f3d4-4ef2-b63a-379d33befcad.png)
+ 2. ServiceAccount 생성 - default namespace 사용 
+![image](https://user-images.githubusercontent.com/49747084/210037938-282eb6a1-2cd1-4d68-b7e8-5cda0e819e97.png)
+
+![image](https://user-images.githubusercontent.com/49747084/210038010-7421b7cb-f3d4-4ef2-b63a-379d33befcad.png)
 
  3. 서비스 계정(efs-provisioner)에 권한(rbac) 설정
-  ![image](https://user-images.githubusercontent.com/49747084/210038122-86a71c9e-e04d-452f-9b7d-e5ab9dd5a325.png)
+![image](https://user-images.githubusercontent.com/49747084/210038122-86a71c9e-e04d-452f-9b7d-e5ab9dd5a325.png)
 
- 4.  EKS에 EFS Provisioner 설치
-  ![image](https://user-images.githubusercontent.com/49747084/210038907-609bf464-a8e4-4ac4-9894-7bc11582331a.png)
-  ![image](https://user-images.githubusercontent.com/49747084/210038972-9a73574d-1f4b-4de8-ae9e-33459de50ec9.png)
+4.  EKS에 EFS Provisioner 설치 
+![image](https://user-images.githubusercontent.com/49747084/210038907-609bf464-a8e4-4ac4-9894-7bc11582331a.png)
 
-   - 생성된 Provisioner 를 StorageClass 에 등록 후 확인
-   ![image](https://user-images.githubusercontent.com/49747084/210039004-ca1d25c4-ad74-4217-9e73-4e223acb3b05.png)
-   ![image](https://user-images.githubusercontent.com/49747084/210039091-4b70c70c-fe5b-4f68-a5e6-225af00f5925.png)
+![image](https://user-images.githubusercontent.com/49747084/210038972-9a73574d-1f4b-4de8-ae9e-33459de50ec9.png)
 
- 5. 해당 Provisioner 사용하는 pvc 생성 후 pvc 조회하여 확인
-  ![image](https://user-images.githubusercontent.com/49747084/210039179-1bff8e96-5ea4-4976-b218-fb72d4a29805.png)
+ - 생성된 Provisioner 를 StorageClass 에 등록 후 확인 
+![image](https://user-images.githubusercontent.com/49747084/210039004-ca1d25c4-ad74-4217-9e73-4e223acb3b05.png)
+![image](https://user-images.githubusercontent.com/49747084/210039091-4b70c70c-fe5b-4f68-a5e6-225af00f5925.png)
 
- 6. deployment.yaml 에 volume 정보 등록
-  ![image](https://user-images.githubusercontent.com/49747084/210039235-a78b8c67-fdbb-4a11-9bb0-4bf612b76c79.png)
-  ![image](https://user-images.githubusercontent.com/49747084/210039277-f20fcaee-df2e-4222-8603-ddfd44135b04.png)
+5. 해당 Provisioner 사용하는 pvc 생성 후 pvc 조회하여 확인
+![image](https://user-images.githubusercontent.com/49747084/210039179-1bff8e96-5ea4-4976-b218-fb72d4a29805.png)
 
- 7. 배포 후 해당 pod 에 파일시스템이 정상 마운트 되는 것 확인
-  ![image](https://user-images.githubusercontent.com/49747084/210039374-6a976534-e3f4-49fe-9408-a35351ccd422.png)
+6. deployment.yaml 에 volume 정보 등록
+ 
+![image](https://user-images.githubusercontent.com/49747084/210039235-a78b8c67-fdbb-4a11-9bb0-4bf612b76c79.png)
+![image](https://user-images.githubusercontent.com/49747084/210039277-f20fcaee-df2e-4222-8603-ddfd44135b04.png)
 
+7. 배포 후 해당 pod 에 파일시스템이 정상 마운트 되는 것 확인
+![image](https://user-images.githubusercontent.com/49747084/210039374-6a976534-e3f4-49fe-9408-a35351ccd422.png)
+
+![image](https://user-images.githubusercontent.com/49747084/210039379-cb71995c-ae67-4816-a4ee-c366f1976598.png)
 
 
 
