@@ -60,35 +60,15 @@ public class Movie {
 
         repository().findById(Long.valueOf(ratingDeleted.getMovieId())).ifPresent(movie -> {
             // movie // do something
-            if ((movie.getAvgScore() * movie.getVoteCnt() - ratingDeleted.getScore()) > 0) {
-                movie.setAvgScore(movie.getAvgScore() * movie.getVoteCnt()
-                        - (ratingDeleted.getScore()) / (movie.getVoteCnt() - 1));
+            if ((movie.getVoteCnt() - 1) > 0) {
+                movie.setAvgScore((movie.getAvgScore() * movie.getVoteCnt()
+                        - ratingDeleted.getScore()) / (movie.getVoteCnt() - 1));
             } else {
-                movie.setAvgScore((float)0.0);
+                movie.setAvgScore((float)(0.0));
             }
             movie.setVoteCnt(movie.getVoteCnt() - 1);
             repository().save(movie);
         });
-
-        /**
-         * Example 1: new item
-         * Movie movie = new Movie();
-         * repository().save(movie);
-         * 
-         */
-
-        /**
-         * Example 2: finding and process
-         * 
-         * repository().findById(ratingDeleted.get???()).ifPresent(movie->{
-         * 
-         * movie // do something
-         * repository().save(movie);
-         * 
-         * 
-         * });
-         */
-
     }
 
 }
