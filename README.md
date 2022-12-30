@@ -102,7 +102,7 @@ reservation 결과가 없을 경우 오류를 발생시킴
  
    ![image](https://user-images.githubusercontent.com/117143880/210039838-4a56ba9c-5b03-48a0-bb27-cf00b93ee87b.png)
 
-### Gateway/Ingress
+### Gateway
 - gateway 스프링부트 app 추가
 - application.yaml내에 rating, screen, dashboard 등 각 마이크로 서비스의 routes 를 추가하고 gateway 서버의 포트 8080 설정
 - Kubernetes에 생성된 Deploy. 확인
@@ -129,6 +129,11 @@ kubectl autoscale deployment reservation --cpu-percent=50 --min=1 --max=3
 - 적용화면
 
   ![image](https://user-images.githubusercontent.com/117143880/210032616-e95eee4c-c136-4a2e-b327-13b5d1c6531a.png)
+
+- seige 명령으로 부하를 주어서 Pod 가 늘어남을 확인. 이후 CPU 
+  ![image](https://user-images.githubusercontent.com/121626006/210043460-3d8f193f-98e1-4ab6-8d50-880cf4f14824.png)
+
+  ![image](https://user-images.githubusercontent.com/121626006/210043496-8c51f175-e464-4a22-bfa9-55b7690f9734.png)
 
 
 ### Zero-downtime deploy (Readiness probe)
