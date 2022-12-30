@@ -57,7 +57,9 @@
 ![image](https://user-images.githubusercontent.com/117365912/210041142-14ef252c-5eda-49ff-9c09-a9c5099e2db6.png)
 
 - 예약 취소 시, 잔여좌석 4가 증가함(116->120)
-![image](https://user-images.githubusercontent.com/117365912/210041229-19a5a952-8dee-4b80-b28b-609360e1feaf.png)
+![image](https://user-images.githubusercontent.com/117365912/210041807-fcc707dc-e3d7-45c7-a64b-74d9bd34b15d.png)
+![image](https://user-images.githubusercontent.com/117365912/210041840-a57332dd-cf0c-4e3d-b954-4a327e05965d.png)
+
 
 ### Request-Response
 - 결재승인은 실시간 처리를 위해, req-res로 구현함
