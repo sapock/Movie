@@ -5,13 +5,12 @@
 
 
 ## 서비스 시나리오
-### 영화관 관리자
+(영화관 관리자)
 1. 관리자가 해당 영화관에 상영 중인 영화 정보를 등록한다.(제목,줄거리,평균 평점)
 3. 관리자가 등록된 영화 정보를 삭제한다.
 4. 관리자가 영화의 상영 정보를 등록한다
 5. 관리자가 상영 정보(상영 시간)을 수정한다. 상영 시간 정보가 바뀌면 고객에게 알려준다.
-
-### 고객
+(고객)
 1. 고객이 영화를 예매한다 - 잔여 좌석이 있는 경우만 예매 가능
 4. 고객이 영화 예매 내역을 결제한다
 5. 고객은 영화 예매 내역을 취소할 수 있다 - 영화 시작 전에만 취소 가능하며, 취소가 완료되면 결제도 취소 처리된다
@@ -19,8 +18,7 @@
 8. 고객은 예매한 영화 관람 이후 영화 평점과 후기를 등록할 수 있다.
 9. 고객은 영화 평점을 조회할 수 있다.
 10. 고객은 본인이 등록한 영화 평점을 삭제할 수 있다.
-
-### 결제시스템
+(결제시스템)
 1. 결제요청이 들어오면 결제 승인한다.
 2. 결제취소 요청이 들어오면 결제 취소한다.
 
@@ -128,14 +126,16 @@ kubectl autoscale deployment reservation --cpu-percent=50 --min=1 --max=3
 ![image](https://user-images.githubusercontent.com/117251587/210034371-2065a5ab-90c8-4828-a482-2aa0e845ce08.png)
 
 ### Persistence Volume/ConfigMap/Secret
+ 1. EFS 생성
 ![image](https://user-images.githubusercontent.com/49747084/210037806-42f1c94e-abe9-45c4-9e5c-c124c5e1bb21.png)
-
+  - Network 에서 각 AZ별 Security groups 추가
 ![image](https://user-images.githubusercontent.com/49747084/210037842-2ad25cc6-30d4-43bd-8d33-5591d5fb1627.png)
 
-ServiceAccount 생성 - default namespace 사용
+ 2. ServiceAccount 생성 - default namespace 사용
 ![image](https://user-images.githubusercontent.com/49747084/210037938-282eb6a1-2cd1-4d68-b7e8-5cda0e819e97.png)
 ![image](https://user-images.githubusercontent.com/49747084/210038010-7421b7cb-f3d4-4ef2-b63a-379d33befcad.png)
-서비스 계정(efs-provisioner)에 권한(rbac) 설정
+
+ - 서비스 계정(efs-provisioner)에 권한(rbac) 설정
 ![image](https://user-images.githubusercontent.com/49747084/210038122-86a71c9e-e04d-452f-9b7d-e5ab9dd5a325.png)
 
 
