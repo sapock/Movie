@@ -42,6 +42,7 @@
 
 
 ## 구현
+### 점검방법 : Movie_HTTP.txt 파일의 http request 목록으로 실행 점검
 
 ### Saga (Pub-Sub)
 - 잔여좌석처리, 평점평균처리등에 Saga 패턴을 적용함
