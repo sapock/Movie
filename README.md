@@ -120,3 +120,14 @@ kubectl autoscale deployment reservation --cpu-percent=50 --min=1 --max=3
 ![image](https://user-images.githubusercontent.com/117143880/210032616-e95eee4c-c136-4a2e-b327-13b5d1c6531a.png)
 
 
+### Zero-downtime deploy (Readiness probe)
+- deployment.yaml 파일에 readinessProbe 설정
+
+![image](https://user-images.githubusercontent.com/117251587/210034003-7b99130a-7ee3-4a71-bcfc-d6866c511eff.JPG)
+
+
+- siege pod 을 통해 무정지 배포가 되는지 확인
+
+![image](https://user-images.githubusercontent.com/117251587/210034009-78859fe1-4970-4a8f-8f35-87742f180767.JPG)
+
+![image](https://user-images.githubusercontent.com/117251587/210034371-2065a5ab-90c8-4828-a482-2aa0e845ce08.png)
