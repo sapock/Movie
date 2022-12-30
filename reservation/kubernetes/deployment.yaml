@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: reservation
-          image: sapock/reservation:v1
+          image: sapock/reservation:latest
           ports:
             - containerPort: 8080
           resources:

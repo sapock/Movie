@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: dashboard
-          image: sapock/dashboard:v1
+          image: sapock/dashboard:latest
           ports:
             - containerPort: 8080
           resources:

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: rating
-          image: sapock/rating:v1
+          image: sapock/rating:latest
           ports:
             - containerPort: 8080
           resources:
