@@ -45,7 +45,7 @@
 ### 점검방법 : Movie_HTTP.txt 파일의 http request 목록으로 실행 점검
 
 ### Saga (Pub-Sub)
-- 잔여좌석처리, 평점평균처리등에 Saga 패턴을 적용함
+- 잔여좌석처리, 평점평균처리, 결재취소 등에 Saga 패턴을 적용함
 - 평점을 등록하면, 영화정보에 평점평균으 업데이트 하는 케이스
 ![image](https://user-images.githubusercontent.com/117365912/210039670-89cdb013-4185-450f-a696-1b0b93d8f166.png)
 ![image](https://user-images.githubusercontent.com/117365912/210042177-64dbe940-dc0c-4ee3-9b4b-c0673c1e66ea.png)
