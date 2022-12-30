@@ -203,3 +203,6 @@ kubectl autoscale deployment reservation --cpu-percent=50 --min=1 --max=3
   ![image](https://user-images.githubusercontent.com/117143880/210034409-a88f8aa7-f52c-4d72-b24a-320c002ed4b8.png)
 
 
+### Monitoring
+ - Kiali Console 로 
+  ![image](https://user-images.githubusercontent.com/49747084/210044696-c62e7d19-0c78-437a-ba0b-d26776d11e02.png)
