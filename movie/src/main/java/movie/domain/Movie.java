@@ -47,8 +47,8 @@ public class Movie {
 
         repository().findById(Long.valueOf(ratingRegistered.getMovieId())).ifPresent(movie -> {
             // movie // do something
-            movie.setAvgScore(movie.getAvgScore() * movie.getVoteCnt()
-                    + (ratingRegistered.getScore()) / (movie.getVoteCnt() + 1));
+            movie.setAvgScore((movie.getAvgScore() * movie.getVoteCnt()
+                    + ratingRegistered.getScore()) / (movie.getVoteCnt() + 1));
             movie.setVoteCnt(movie.getVoteCnt() + 1);
             repository().save(movie);
         });
