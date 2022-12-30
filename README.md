@@ -47,66 +47,61 @@
 
 ## 구현
 
+### Saga (Pub-Sub)
+### CQRS
+### Compensation & Correlation
+### Request-Response
 
-### 서킷브레이킹/장애격리
 
+### Circuit Breaker
 - Spring FeignClient + Hystrix 옵션을 사용하여 구현함
-
 - application.yml Hystrix 를 설정
-<pre><code>
-feign:
-  hystrix:
-    enabled: true
-    
-hystrix:
-  command:
-    default:
-      execution.isolation.thread.timeoutInMilliseconds: 610
-</code></pre> 
+
+  ![image](https://user-images.githubusercontent.com/117143880/210035409-182c3ea2-533a-4246-a04e-23b96ff1281a.png)
 
 - Rating.java의 @PrePersist 로
 reservation 서비스를 호출한 결과
 reservation 결과가 없을 경우 오류를 발생시킴
 
-<pre><code>
-@PrePersist
-    public void onPrePersist() {
-        // get from reservation
-        Reservation reservation = 
-        RatingApplication.applicationContext.getBean(ReservationService.class)
-        .getReservation(Long.valueOf(getReserveId()));
-        
-        if(reservation == null ){
-            throw new RuntimeException("Unavailable!!!");
-     } 
- }
- </code></pre>
- 
+  ![image](https://user-images.githubusercontent.com/117143880/210035244-d763ac80-4350-434b-88e1-e4b8f08a3990.png)
+
  - 수행 결과
  <pre><code>
  {결과화면}
  </code></pre>
+ 
+ - fallback 처리 (장애 발생 시에 대체 활동)
+   reservation 서비스가 중지된 상태에서 리뷰를 등록하고자 할 경우
+ - rating/.../ReservationService.java FeignClient에 fallback 옵션을 준다.
+ 
+   ![image](https://user-images.githubusercontent.com/117143880/210034593-be5ee7a0-3fa2-48cf-8575-0bf38cf57691.png)
+ - fallback 구현체 구현
+   rating/.../ReservationServiceImpl.java
+   
+   ![image](https://user-images.githubusercontent.com/117143880/210034905-08d3dbc5-530b-408f-b414-234dc2f9526a.png)
+ - 장애 발생으로 reservation 서비스를 호출하지 못했을 경우, ReservationServiceImpl 의 getReservation 메서드를 실행하여 대체값을 리턴한다.
+ 
 
 ### Gateway/Ingress
 - gateway 스프링부트 app 추가
 - application.yaml내에 rating, screen, dashboard 등 각 마이크로 서비스의 routes 를 추가하고 gateway 서버의 포트 8080 설정
 - Kubernetes에 생성된 Deploy. 확인
 
-![image](https://user-images.githubusercontent.com/117143880/210031686-33985e23-4158-4ad5-82be-45a722f613bb.png)
+  ![image](https://user-images.githubusercontent.com/117143880/210031686-33985e23-4158-4ad5-82be-45a722f613bb.png)
 
 - Ingress를 통한 진입점 통일
 
-![image](https://user-images.githubusercontent.com/117143880/210032858-20741d7b-1d1a-47d6-9547-8c1b921ef763.png)
+  ![image](https://user-images.githubusercontent.com/117143880/210032858-20741d7b-1d1a-47d6-9547-8c1b921ef763.png)
 
 - Kubernetes용 Service.yaml을 작성하고 Kubernetes에 Service/LoadBalancer을 생성하여 엔드포인트를 확인.
 
-![image](https://user-images.githubusercontent.com/117143880/210031800-dbaa3153-e087-4e8e-a652-857cb4e40510.png)
+  ![image](https://user-images.githubusercontent.com/117143880/210031800-dbaa3153-e087-4e8e-a652-857cb4e40510.png)
 
 
 ### Deploy/Pipeline
--public 주소로 접속 가능
+- public 주소로 접속 가능
 
-![image](https://user-images.githubusercontent.com/117143880/210031960-56073ac2-f484-4805-abfd-b979a7dfbfba.png)
+  ![image](https://user-images.githubusercontent.com/117143880/210031960-56073ac2-f484-4805-abfd-b979a7dfbfba.png)
 
 
 ### Autoscale(HPA)
@@ -117,6 +112,17 @@ kubectl autoscale deployment reservation --cpu-percent=50 --min=1 --max=3
 </code></pre>
 - 적용화면
 
-![image](https://user-images.githubusercontent.com/117143880/210032616-e95eee4c-c136-4a2e-b327-13b5d1c6531a.png)
+  ![image](https://user-images.githubusercontent.com/117143880/210032616-e95eee4c-c136-4a2e-b327-13b5d1c6531a.png)
 
 
+### Zero-downtime deploy (Readiness probe)
+
+### Persistence Volume/ConfigMap/Secret
+
+### Self-healing (liveness probe)
+- deployment.yml 파일 수정
+
+  ![image](https://user-images.githubusercontent.com/117143880/210034409-a88f8aa7-f52c-4d72-b24a-320c002ed4b8.png)
+
+
+### Loggregation / Monitoring
