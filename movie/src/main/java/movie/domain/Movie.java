@@ -47,7 +47,8 @@ public class Movie {
 
         repository().findById(Long.valueOf(ratingRegistered.getMovieId())).ifPresent(movie -> {
             // movie // do something
-            movie.setAvgScore(movie.getAvgScore() * movie.getVoteCnt() + (ratingRegistered.getScore()) / (movie.getVoteCnt() + 1));
+            movie.setAvgScore(movie.getAvgScore() * movie.getVoteCnt()
+                    + (ratingRegistered.getScore()) / (movie.getVoteCnt() + 1));
             movie.setVoteCnt(movie.getVoteCnt() + 1);
             repository().save(movie);
         });
@@ -55,13 +56,16 @@ public class Movie {
 
     }
 
-
-    // 주석이 보이시나요?
     public static void deleteRatingScore(RatingDeleted ratingDeleted) {
 
         repository().findById(Long.valueOf(ratingDeleted.getMovieId())).ifPresent(movie -> {
             // movie // do something
-            movie.setAvgScore(movie.getAvgScore() * movie.getVoteCnt() - (ratingDeleted.getScore()) / (movie.getVoteCnt() - 1));
+            if ((movie.getAvgScore() * movie.getVoteCnt() - ratingDeleted.getScore()) > 0) {
+                movie.setAvgScore(movie.getAvgScore() * movie.getVoteCnt()
+                        - (ratingDeleted.getScore()) / (movie.getVoteCnt() - 1));
+            } else {
+                movie.setAvgScore((float)0.0);
+            }
             movie.setVoteCnt(movie.getVoteCnt() - 1);
             repository().save(movie);
         });
@@ -84,8 +88,6 @@ public class Movie {
          * 
          * });
          */
-
-         
 
     }
 
