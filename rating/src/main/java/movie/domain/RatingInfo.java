@@ -34,18 +34,10 @@ public class RatingInfo {
 
     private String review;
 
-    private String cmdType;
-
     @PostPersist
     public void onPostPersist() {
-
-        if (this.getCmdType().equals("I")) {
-            RatingRegistered ratingRegistered = new RatingRegistered(this);
-            ratingRegistered.publishAfterCommit();
-        } else {
-            RatingDeleted ratingDeleted = new RatingDeleted(this);
-            ratingDeleted.publishAfterCommit();
-        }
+        RatingRegistered ratingRegistered = new RatingRegistered(this);
+        ratingRegistered.publishAfterCommit();
 
         // Get request from Reservation
         // movie.external.Reservation reservation =
@@ -54,30 +46,35 @@ public class RatingInfo {
 
     }
 
+    @PreRemove
+    public void onPreRemove() {
+        RatingDeleted ratingDeleted = new RatingDeleted(this);
+        ratingDeleted.publishAfterCommit();
+    }
+
     @PrePersist
     public void onPrePersist() {
         // Get request from reservation
-        Reservation reservation = 
-        RatingApplication.applicationContext.getBean(ReservationService.class)
-        .getReservation(Long.valueOf(getReserveId()));
-        
-        if(reservation == null ){
+        Reservation reservation = RatingApplication.applicationContext.getBean(ReservationService.class)
+                .getReservation(Long.valueOf(getReserveId()));
+
+        if (reservation == null) {
             throw new RuntimeException("Unavailable!!!");
-        } 
-        
+        }
+
         // else {
 
-        //     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        //     Date currentTime = new Date();
-        //     String date = format.format(currentTime);
-        //     String scrDate = format.format(reservation.getScreenDate());
-    
-        //     int compare = date.compareTo(scrDate);
-        //     if(compare >= 0) throw new RuntimeException("Wathced it yet!");
-        // }    
-   
+        // SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        // Date currentTime = new Date();
+        // String date = format.format(currentTime);
+        // String scrDate = format.format(reservation.getScreenDate());
+
+        // int compare = date.compareTo(scrDate);
+        // if(compare >= 0) throw new RuntimeException("Wathced it yet!");
+        // }
+
     }
-    
+
     public static RatingInfoRepository repository() {
         RatingInfoRepository ratingInfoRepository = RatingApplication.applicationContext
                 .getBean(RatingInfoRepository.class);
