@@ -46,3 +46,77 @@
 
 
 ## 구현
+
+
+### 서킷브레이킹/장애격리
+
+- Spring FeignClient + Hystrix 옵션을 사용하여 구현함
+
+- application.yml Hystrix 를 설정
+<pre><code>
+feign:
+  hystrix:
+    enabled: true
+    
+hystrix:
+  command:
+    default:
+      execution.isolation.thread.timeoutInMilliseconds: 610
+</code></pre> 
+
+- Rating.java의 @PrePersist 로
+reservation 서비스를 호출한 결과
+reservation 결과가 없을 경우 오류를 발생시킴
+
+<pre><code>
+@PrePersist
+    public void onPrePersist() {
+        // get from reservation
+        Reservation reservation = 
+        RatingApplication.applicationContext.getBean(ReservationService.class)
+        .getReservation(Long.valueOf(getReserveId()));
+        
+        if(reservation == null ){
+            throw new RuntimeException("Unavailable!!!");
+     } 
+ }
+ </code></pre>
+ 
+ - 수행 결과
+ <pre><code>
+ {결과화면}
+ </code></pre>
+
+### Gateway/Ingress
+- gateway 스프링부트 app 추가
+- application.yaml내에 rating, screen, dashboard 등 각 마이크로 서비스의 routes 를 추가하고 gateway 서버의 포트 8080 설정
+- Kubernetes에 생성된 Deploy. 확인
+
+![image](https://user-images.githubusercontent.com/117143880/210031686-33985e23-4158-4ad5-82be-45a722f613bb.png)
+
+- Ingress를 통한 진입점 통일
+
+![image](https://user-images.githubusercontent.com/117143880/210032858-20741d7b-1d1a-47d6-9547-8c1b921ef763.png)
+
+- Kubernetes용 Service.yaml을 작성하고 Kubernetes에 Service/LoadBalancer을 생성하여 엔드포인트를 확인.
+
+![image](https://user-images.githubusercontent.com/117143880/210031800-dbaa3153-e087-4e8e-a652-857cb4e40510.png)
+
+
+### Deploy/Pipeline
+-public 주소로 접속 가능
+
+![image](https://user-images.githubusercontent.com/117143880/210031960-56073ac2-f484-4805-abfd-b979a7dfbfba.png)
+
+
+### Autoscale(HPA)
+- 예매서비스에 대한 replica 를 동적으로 늘려주도록 HPA 를 설정한다. 설정은 CPU 사용량이 50프로를 넘어서면 replica 를 3개까지 늘려준다:
+<pre><code>,,,
+kubectl autoscale deployment reservation --cpu-percent=50 --min=1 --max=3
+,,,
+</code></pre>
+- 적용화면
+
+![image](https://user-images.githubusercontent.com/117143880/210032616-e95eee4c-c136-4a2e-b327-13b5d1c6531a.png)
+
+
