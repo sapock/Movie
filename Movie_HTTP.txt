@@ -1,0 +1,88 @@
+=============================  로컬에서 테스트 ===================================
+
+[영화 등록]
+http POST localhost:8086/movies subject="아바타 v2" contents="이 영화는 SF 장르에요." avgScore="0" voteCnt="0" 
+http GET localhost:8086/movies   => 방금 채번된 ID 참고, 영화관 등록시에도 해당 ID사용(sample은 다 1로 했습니다.)
+http GET localhost:8086/movies/2
+
+[영화관 등록]
+http POST localhost:8082/screens movieId="2" theaterName="런던CGV" screenDate="2022-12-30T12:00:00.000+00:00" seatingCapacity="100" seatingRemain="100" seatingPrice="10000" 
+http GET localhost:8082/screens   
+http GET localhost:8082/screens/3
+
+[예약]
+* 예약 전, 결재정보와 영화관 좌석정보 확인
+http GET localhost:8084/payments   => 마지막ID +1 로 예약 시 paymentId를 설정
+http GET localhost:8082/screens/3
+
+*예약
+http POST localhost:8085/reservations movieId="2" screenId="3" customerId="1004" paymentId="8" seatingQty="5" customerEmail="a@test.com" theaterName="런던CGV" screenDate="2022-12-30T12:00:00.000+00:00"
+http GET localhost:8085/reservations   
+http GET localhost:8085/reservations/??   => 취소에서 사용
+
+* 예약 후, 결재정보와 영화관 좌석정보 확인
+http GET localhost:8084/payments
+http GET localhost:8084/payments/??   => 취소에서 해당 결재번호로....
+http GET localhost:8082/screens/3 => 좌석 감소 확인
+
+[예약취소] 
+http DELETE localhost:8085/reservations/reservations/1 
+http GET localhost:8084/payments/??  => 결재취소확인
+http GET localhost:8082/screens/3  => 좌석 증가 확인
+
+[평점입력]
+http POST localhost:8081/ratingInfos movieId="2" screenId="3" customerId="1004" reserveId="200" score="8"  review="재밌어요^^"
+http GET localhost:8081/ratingInfos  => 취소할거 미리 확인
+http GET localhost:8086/movies/2  => 평점 확인
+
+[평점입력취소]
+http DELETE localhost:8081/ratingInfos/5
+http GET localhost:8086/movies/2  => 평점 확인
+
+
+
+
+
+=======================   배포환경에서 실행 =========================================
+
+[영화 등록]
+http POST a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/movies subject="아바타 v2" contents="이 영화는 SF 장르에요." avgScore="9" voteCnt="2" 
+http GET a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/movies   => 방금 채번된 ID 참고, 영화관 등록시에도 해당 ID사용(sample은 다 1로 했습니다.)
+http GET a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/movies/1
+
+[영화관 등록]
+http POST a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/screens movieId="1" theaterName="런던CGV" screenDate="2022-12-30T12:00:00.000+00:00" seatingCapacity="120" seatingRemain="120" seatingPrice="10000" 
+http GET a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/screens   
+http GET a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/screens/2
+
+[예약]
+* 예약 전, 결재정보와 영화관 좌석정보 확인
+http GET a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/payments   => 마지막ID +1 로 예약 시 paymentId를 설정
+http GET a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/screens/1
+
+*예약
+http POST a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/reservations movieId="1" screenId="1" customerId="1004" paymentId="1" seatingQty="4" customerEmail="a@test.com" theaterName="런던CGV" screenDate="2022-12-30T12:00:00.000+00:00"
+http GET a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/reservations   
+http GET a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/reservations/??
+
+* 예약 후, 결재정보와 영화관 좌석정보 확인
+http GET a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/payments
+http GET a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/payments/??
+http GET a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/screens/2
+
+[예약취소] 
+http DELETE a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/reservations/1
+http GET a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/payments/??  => 결재취소확인
+http GET a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/screens/3  => 좌석 증가 확인
+
+
+[평점입력]
+http POST a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/ratingInfos movieId="1" screenId="1" customerId="1004" reserveId="1" score="8"  review="재밌어요^^"
+http GET a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/ratingInfos  => 취소할거 미리 확인
+http GET a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/movies/1  => 평점 확인
+
+[평점입력취소]
+http DELETE a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/ratingInfos/2
+http GET a084b06614a50439ca886ab57356238a-1980408175.eu-west-2.elb.amazonaws.com:8080/movies/1  => 평점 확인
+
+
