@@ -48,13 +48,17 @@
 - 평점을 등록하면, 영화정보에 평점평균으 업데이트 하는 케이스
 ![image](https://user-images.githubusercontent.com/117365912/210039670-89cdb013-4185-450f-a696-1b0b93d8f166.png)
 
-
 ### CQRS
 - 예약정보 및 평점정보 dashboard 구현
 ![image](https://user-images.githubusercontent.com/117365912/210039618-945de9e4-1659-49b8-9d45-de45b08643ab.png)
 
 ### Compensation & Correlation
+
+
 ### Request-Response
+- 결재승인은 실시간 처리를 위해, req-res로 구현함
+![image](https://user-images.githubusercontent.com/117365912/210040220-3aa8d36b-2d6a-4c5f-90d9-105d1e3f9e8c.png)
+
 
 
 ### Circuit Breaker
