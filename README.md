@@ -74,8 +74,9 @@ reservation 결과가 없을 경우 오류를 발생시킴
   ![image](https://user-images.githubusercontent.com/117143880/210035244-d763ac80-4350-434b-88e1-e4b8f08a3990.png)
 
  - 수행 결과
+   서킷브레이커 작동 로그 확인
  <pre><code>
- {결과화면}
+ java.lang.RuntimeException: Hystrix circuit short-circuited and is OPEN
  </code></pre>
  
  - fallback 처리 (장애 발생 시에 대체 활동)
@@ -89,6 +90,7 @@ reservation 결과가 없을 경우 오류를 발생시킴
    ![image](https://user-images.githubusercontent.com/117143880/210034905-08d3dbc5-530b-408f-b414-234dc2f9526a.png)
  - 장애 발생으로 reservation 서비스를 호출하지 못했을 경우, ReservationServiceImpl 의 getReservation 메서드를 실행하여 대체값을 리턴한다.
  
+   ![image](https://user-images.githubusercontent.com/117143880/210039838-4a56ba9c-5b03-48a0-bb27-cf00b93ee87b.png)
 
 ### Gateway/Ingress
 - gateway 스프링부트 app 추가
