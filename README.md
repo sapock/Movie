@@ -53,7 +53,11 @@
 ![image](https://user-images.githubusercontent.com/117365912/210039618-945de9e4-1659-49b8-9d45-de45b08643ab.png)
 
 ### Compensation & Correlation
+- 4명 예약 시, 잔여좌석 4가 차감됨(120->116)
+![image](https://user-images.githubusercontent.com/117365912/210041142-14ef252c-5eda-49ff-9c09-a9c5099e2db6.png)
 
+- 예약 취소 시, 잔여좌석 4가 증가함(116->120)
+![image](https://user-images.githubusercontent.com/117365912/210041229-19a5a952-8dee-4b80-b28b-609360e1feaf.png)
 
 ### Request-Response
 - 결재승인은 실시간 처리를 위해, req-res로 구현함
