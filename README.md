@@ -53,6 +53,8 @@
 ### CQRS
 - 예약정보 및 평점정보 dashboard 구현
 ![image](https://user-images.githubusercontent.com/117365912/210039618-945de9e4-1659-49b8-9d45-de45b08643ab.png)
+![image](https://user-images.githubusercontent.com/117365912/210043264-221bf4fc-1dba-49df-a614-637a33968aca.png)
+
 
 ### Compensation & Correlation
 - 4명 예약 시, 잔여좌석 4가 차감됨(120->116)
