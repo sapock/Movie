@@ -44,7 +44,12 @@
 ## 구현
 
 ### Saga (Pub-Sub)
+![image](https://user-images.githubusercontent.com/117365912/210039670-89cdb013-4185-450f-a696-1b0b93d8f166.png)
+
+
 ### CQRS
+![image](https://user-images.githubusercontent.com/117365912/210039618-945de9e4-1659-49b8-9d45-de45b08643ab.png)
+
 ### Compensation & Correlation
 ### Request-Response
 
